@@ -1,0 +1,23 @@
+PHP Analyzer - phpa
+- Author
+  * Alexander Olsson <noseglid@gmail.com>
+
+- Requirements
+  * PHP
+  * PHP-CLI
+  * JpGraph (for diagram reports)
+  * XSL support for php (for HTML reports)
+
+  On debian based Linux distributions, the following command
+  will install the necessary dependencies
+
+    % sudo apt-get install php5 php5-cli
+
+  Furthermore, xsl support may be installed by
+
+    % sudo apt-get install php5-xsl
+
+  JpGraph can be found at http://www.aditus.nu/jpgraph/
+
+  Make sure you unpack it in your path
+

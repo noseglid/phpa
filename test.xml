@@ -1,0 +1,17 @@
+<phpunit colors="true" syntaxCheck="true">
+  <testsuites>
+    <testsuite name="PHP Analyzer Tests">
+      <directory>tests/</directory>
+    </testsuite>
+  </testsuites>
+  <logging>
+    <log type="coverage-html" target="report/" charset="UTF-8"
+         yui="true" highlight="false"
+         lowUpperBound="35" highLowerBound="70"/>
+  </logging>
+  <filter>
+    <blacklist>
+      <directory suffix=".php">/paths/to/exclude</directory>
+    </blacklist>
+  </filter>
+</phpunit>
