@@ -5,13 +5,14 @@ PHP Analyzer - phpa
 - Requirements
   * PHP
   * PHP-CLI
+  * sqlite
   * JpGraph (for diagram reports)
   * XSL support for php (for HTML reports)
 
   On debian based Linux distributions, the following command
   will install the necessary dependencies
 
-    % sudo apt-get install php5 php5-cli
+    % sudo apt-get install php5 php5-cli php5-sqlite
 
   Furthermore, xsl support may be installed by
 

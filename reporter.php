@@ -2,6 +2,7 @@
 
 require_once 'functions/xml_array.php';
 require_once 'functions/common.php';
+require_once 'database.php';
 
 require_once 'jpgraph/jpgraph.php';
 require_once 'jpgraph/jpgraph_scatter.php';
@@ -42,6 +43,17 @@ abstract class Reporter {
     if (false === fwrite($this->fh, $str)) {
       throw new Exception("Unable to write to file {$this->f}");
     }
+  }
+}
+
+class DatabaseReporter extends Reporter {
+  public function report() {
+    Database::init($this->f);
+    Database::insertUnits($this->data['units']);
+  }
+
+  public function describe() {
+    return "SQLite3 Database";
   }
 }
 
