@@ -5,7 +5,7 @@ class Database
 
   const STATUS_NOT_DONE = 0;
   const STATUS_DONE     = 1;
-  const STATUS_PENDING  = 2;
+  const STATUS_WAITING  = 2;
 
   private static $db;
 
@@ -51,7 +51,9 @@ class Database
   public static function getAll()
   {
     $result = array();
-    $query = 'SELECT * FROM units';
+    $query = 'SELECT u.*, s.status FROM units u
+              LEFT JOIN status s
+              ON s.fnc=u.fnc AND s.file=u.file';
     $sth = self::$db->prepare($query);
     if ($sth) {
       $sth->execute();
@@ -67,6 +69,7 @@ class Database
       $col = '';
       $val = '';
       foreach ($units[$i] as $k => $v) {
+        if ($k === 'src_strip') continue;
         $col .= "$k, ";
         $val .= "'$v', ";
       }

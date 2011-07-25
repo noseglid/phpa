@@ -61,6 +61,8 @@ class DatabaseTest extends PHPUnit_Extensions_Database_TestCase
       9             => 0,
       'err'         => 0,
       10            => 0,
+      'status'      => 0,
+      11            => 0,
     );
 
     $unit2          = $unit1;
