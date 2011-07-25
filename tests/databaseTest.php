@@ -45,8 +45,8 @@ class DatabaseTest extends PHPUnit_Extensions_Database_TestCase
       1             => '/test/file1.php',
       'row'         => 0,
       2             => 0,
-      'frequency'   => 0,
-      3             => 0,
+      'frequency'   => 1,
+      3             => 1,
       'complexity'  => 0,
       4             => 0,
       'dependency'  => '0 / 0',
@@ -65,23 +65,28 @@ class DatabaseTest extends PHPUnit_Extensions_Database_TestCase
       11            => 0,
     );
 
-    $unit2          = $unit1;
-    $unit2['fnc']   = 'function2_from_xml';
-    $unit2[0]       = $unit2['fnc'];
-    $unit2['file']  = '/test/file2.php';
-    $unit2[1]       = $unit2['file'];
+    $unit2                = $unit1;
+    $unit2['fnc']         = 'function2_from_xml';
+    $unit2[0]             = $unit2['fnc'];
+    $unit2['file']        = '/test/file2.php';
+    $unit2[1]             = $unit2['file'];
+    $unit2['frequency']   = '2';
+    $unit2[3]             = $unit2['frequency'];
 
-    $unit3          = $unit1;
-    $unit3['fnc']   = 'function3_from_xml';
-    $unit3[0]       = $unit3['fnc'];
-    $unit3['file']  = '/test/file3.php';
-    $unit3[1]       = $unit3['file'];
+    $unit3                = $unit1;
+    $unit3['fnc']         = 'function3_from_xml';
+    $unit3[0]             = $unit3['fnc'];
+    $unit3['file']        = '/test/file3.php';
+    $unit3[1]             = $unit3['file'];
+    $unit3['frequency']   = '3';
+    $unit3[3]             = $unit3['frequency'];
 
     $expected = array(
-      $unit1,
-      $unit2,
       $unit3,
+      $unit2,
+      $unit1,
     );
+
     $this->assertEquals($expected, Database::getAll());
   }
 

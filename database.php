@@ -53,7 +53,8 @@ class Database
     $result = array();
     $query = 'SELECT u.*, s.status FROM units u
               LEFT JOIN status s
-              ON s.fnc=u.fnc AND s.file=u.file';
+              ON s.fnc=u.fnc AND s.file=u.file
+              ORDER BY u.frequency DESC';
     $sth = self::$db->prepare($query);
     if ($sth) {
       $sth->execute();
