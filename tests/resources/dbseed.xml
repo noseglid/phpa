@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+  <table name="units">
+    <column>fnc</column>
+    <column>file</column>
+    <column>frequency</column>
+    <row>
+      <value>function1_from_xml</value>
+      <value>/test/file1.php</value>
+      <value>1</value>
+    </row>
+    <row>
+      <value>function2_from_xml</value>
+      <value>/test/file2.php</value>
+      <value>2</value>
+    </row>
+    <row>
+      <value>function3_from_xml</value>
+      <value>/test/file3.php</value>
+      <value>3</value>
+    </row>
+  </table>
+  <table name="status">
+    <column>fnc</column>
+    <column>file</column>
+    <column>status</column>
+    <row>
+      <value>function1_from_xml</value>
+      <value>/test/file1.php</value>
+      <value>0</value>
+    </row>
+    <row>
+      <value>function2_from_xml</value>
+      <value>/test/file2.php</value>
+      <value>0</value>
+    </row>
+    <row>
+      <value>function3_from_xml</value>
+      <value>/test/file3.php</value>
+      <value>0</value>
+    </row>
+  </table>
+</dataset>

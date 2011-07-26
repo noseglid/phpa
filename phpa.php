@@ -19,13 +19,13 @@ function usage() {
   echo "Options:\n";
   echo "\t -i --input \tInput file/folder. The system which should be analyzed. May not coexist with '-xml'.\n";
   echo "\t -xml       \tInput xml file. Use an XML file as input. May not coexist with '-i'.\n";
-  echo "\t -t --type  \tReport type. allowed values 'stdout', 'text', 'diagram' (see '-dt'), 'xml' and 'html'.\n";
+  echo "\t -t --type  \tReport type. allowed values 'stdout', 'text', 'diagram' (see '-dt'), 'xml', 'html' and 'db'.\n";
   echo "\t -dt        \tDiagram type. Datas on axises, colon separated, x:y. Example: complexity:frequency\n";
   echo "\t -ds        \tDiagram scales. The axis scales. Any combination of 'int', 'lin', 'log', 'text' and 'dat'. E.g. 'loglog'.\n";
   echo "\t -xdbt      \tXdebug Trace folder. A folder containing files from xdebug trace.\n";
   echo "\t -o --out   \tOutput file. The file where reports should be written.\n";
   echo "\n";
-  echo "Example:\t phpa -t xml -f analysis.xml -i function_library/\n";
+  echo "Example:\t phpa -t xml -o analysis.xml -i function_library/\n";
   echo "\n";
   if (DEBUG) var_dump(debug_backtrace());
   exit(0);
@@ -170,6 +170,10 @@ switch ($report_t) {
 
   case 'diagram':
     $reporter = new DiagramReporter($data, $report_f, $dt, $ds);
+    break;
+
+  case 'db':
+    $reporter = new DatabaseReporter($data, $report_f);
     break;
 
   default:
