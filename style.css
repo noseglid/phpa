@@ -56,10 +56,6 @@ table {
   margin: 10px 5px;
 }
 
-table.units tr {
-  cursor: pointer;
-}
-
 table.units tr:hover {
   background-color: #ccc;
 }
@@ -92,5 +88,23 @@ th, td  {
 pre {
   text-align: left;
   font-weight: bold;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+#statusboard {
+  position: absolute;
+  left: 42px;
+  display: none;
+  width: 16px;
+  padding: 2px;
+  border: 1px solid #000;
+  background-color: #fff;
+}
+
+#statusboard img {
+  cursor: pointer;
 }
 

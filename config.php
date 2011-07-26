@@ -16,5 +16,7 @@ final class Config {
     'web'        => array('/^$/'),
     'database'   => array('/^$/')
   );
+
+  public static $db = 'db.sqlite';
 }
 
