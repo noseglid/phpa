@@ -58,7 +58,7 @@ class Database
     $sth = self::$db->prepare($query);
     if ($sth) {
       $sth->execute();
-      $result = $sth->fetchAll();
+      $result = $sth->fetchAll(PDO::FETCH_ASSOC);
     }
     return $result;
   }
@@ -96,6 +96,26 @@ class Database
       return true;
     }
     return false;
+  }
+
+  public static function getStatistics()
+  {
+    $result = array();
+    $query = "SELECT COUNT(DISTINCT u.file) AS number_of_files,
+                     COUNT(u.fnc) AS number_of_units,
+                     SUM(u.sloc) AS total_unit_sloc,
+                     (SUm(u.sloc)/COUNT(u.fnc)) AS average_sloc_unit,
+                     (SUM(u.complexity)/COUNT(u.fnc)) AS average_complexity,
+                     (SUM(u.sloc)/SUM(u.complexity)) AS mean_sloc_complexity,
+                     SUM(err) AS errors,
+                     SUM(wrn) AS warnings
+              FROM units u";
+    $sth = self::$db->prepare($query);
+    if ($sth) {
+      $sth->execute();
+      $result = $sth->fetchAll(PDO::FETCH_ASSOC);
+    }
+    return $result[0];
   }
 }
 
