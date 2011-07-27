@@ -40,46 +40,32 @@ class DatabaseTest extends PHPUnit_Extensions_Database_TestCase
   {
     $unit1 = array(
       'fnc'         => 'function1_from_xml',
-      0             => 'function1_from_xml',
       'file'        => '/test/file1.php',
-      1             => '/test/file1.php',
       'row'         => 0,
-      2             => 0,
       'frequency'   => 1,
-      3             => 1,
-      'complexity'  => 0,
-      4             => 0,
+      'complexity'  => 1,
       'dependency'  => '0 / 0',
-      5             => '0 / 0',
       'depsum'      => 0,
-      6             => 0,
-      'sloc'        => 0,
-      7             => 0,
+      'sloc'        => 10,
       'src'         => '',
-      8             => '',
       'wrn'         => 0,
-      9             => 0,
       'err'         => 0,
-      10            => 0,
       'status'      => 0,
-      11            => 0,
     );
 
     $unit2                = $unit1;
     $unit2['fnc']         = 'function2_from_xml';
-    $unit2[0]             = $unit2['fnc'];
     $unit2['file']        = '/test/file2.php';
-    $unit2[1]             = $unit2['file'];
     $unit2['frequency']   = '2';
-    $unit2[3]             = $unit2['frequency'];
+    $unit2['complexity']  = '2';
+    $unit2['sloc']        = '11';
 
     $unit3                = $unit1;
     $unit3['fnc']         = 'function3_from_xml';
-    $unit3[0]             = $unit3['fnc'];
-    $unit3['file']        = '/test/file3.php';
-    $unit3[1]             = $unit3['file'];
+    $unit3['file']        = '/test/file2.php';
     $unit3['frequency']   = '3';
-    $unit3[3]             = $unit3['frequency'];
+    $unit3['complexity']  = '3';
+    $unit3['sloc']        = '12';
 
     $expected = array(
       $unit3,
@@ -133,6 +119,22 @@ class DatabaseTest extends PHPUnit_Extensions_Database_TestCase
     $fnc  = 'function1_from_xml';
     $file = '/test/file1.php';
     $this->assertTrue(Database::setStatus($fnc, $file, Database::STATUS_DONE));
+  }
+
+  public function testGetStatistics()
+  {
+    $expected = array(
+      'number_of_files'       => 2,
+      'number_of_units'       => 3,
+      'total_unit_sloc'       => 33,            // 10+11+12
+      'average_sloc_unit'     => 11,            // (10+11+12)/3
+      'average_complexity'    => 2,             // (1+2+3)/3
+      'mean_sloc_complexity'  => 5,             // (10+11+12)/(1+2+3)=5.5
+      'errors'                => 0,
+      'warnings'              => 0,
+    );
+
+    $this->assertEquals($expected, Database::getStatistics());
   }
 }
 
