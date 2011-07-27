@@ -104,7 +104,7 @@ class Database
     $query = "SELECT COUNT(DISTINCT u.file) AS number_of_files,
                      COUNT(u.fnc) AS number_of_units,
                      SUM(u.sloc) AS total_unit_sloc,
-                     (SUm(u.sloc)/COUNT(u.fnc)) AS average_sloc_unit,
+                     (SUM(u.sloc)/COUNT(u.fnc)) AS average_sloc_unit,
                      (SUM(u.complexity)/COUNT(u.fnc)) AS average_complexity,
                      (SUM(u.sloc)/SUM(u.complexity)) AS mean_sloc_complexity,
                      SUM(err) AS errors,
