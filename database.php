@@ -66,23 +66,27 @@ class Database
   public static function insertUnits($units)
   {
     self::$db->beginTransaction();
-    for ($i = 0; $i < count($units); $i++) {
+
+    foreach ($units as $unit) {
       $col = '';
       $val = '';
-      foreach ($units[$i] as $k => $v) {
+      $val_arr = array();
+      foreach ($unit as $k => $v) {
         if ($k === 'src_strip') continue;
+        $k = sqlite_escape_string($k);
         $col .= "$k, ";
-        $val .= "'$v', ";
+        $val .= ":$k, ";
+        $val_arr[":$k"] = sqlite_escape_string($v);
       }
       $col = trim($col, ', ');
       $val = trim($val, ', ');
 
-      $query = "INSERT INTO units ({$col}) VALUES({$val})";
-      self::$db->exec($query);
-
-      $query = "INSERT INTO status (fnc, file)
-                VALUES('{$units[$i]['fnc']}','{$units[$i]['file']}')";
-      self::$db->exec($query);
+      $stmt_units = self::$db->prepare("INSERT INTO units ({$col}) VALUES({$val})");
+      $stmt_units->execute($val_arr);
+ 
+      $stmt_status = self::$db->prepare("INSERT INTO status (fnc, file)
+                                         VALUES(:fnc, :file)");
+      $stmt_status->execute(array(":fnc" => $unit['fnc'], ":file" => $unit['file']));
     }
     return self::$db->commit();
   }
