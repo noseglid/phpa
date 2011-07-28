@@ -8,9 +8,11 @@ class Database
   const STATUS_WAITING  = 2;
 
   private static $db;
+  private static $db_exists;
 
   public static function init($filename = 'units.sqlite')
   {
+    self::$db_exists = file_exists($filename);
     self::$db = new PDO('sqlite:' . $filename);
     self::$db->query('PRAGMA foreign_keys = ON');
     self::createTable();
@@ -20,20 +22,24 @@ class Database
   {
     self::$db->beginTransaction();
 
-    $query = 'CREATE TABLE IF NOT EXISTS units (
+    $query = "CREATE TABLE IF NOT EXISTS units (
                 fnc           TEXT    NOT NULL,
                 file          TEXT    NOT NULL,
                 row           INTEGER NOT NULL DEFAULT 0,
                 frequency     INTEGER NOT NULL DEFAULT 0,
                 complexity    INTEGER NOT NULL DEFAULT 0,
-                dependency    TEXT    NOT NULL DEFAULT "0 / 0",
+                dependency    TEXT    NOT NULL DEFAULT '0 / 0',
                 depsum        INTEGER NOT NULL DEFAULT 0,
                 sloc          INTEGER NOT NULL DEFAULT 0,
                 src           TEXT,
                 wrn           INTEGER NOT NULL DEFAULT 0,
                 err           INTEGER NOT NULL DEFAULT 0,
                 PRIMARY KEY (fnc, file)
-              )';
+              )";
+
+    if (self::$db_exists) {
+      $query = "DROP TABLE IF EXISTS units";
+    }
     self::$db->exec($query);
 
     $query = 'CREATE TABLE IF NOT EXISTS status (
