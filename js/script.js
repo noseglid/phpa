@@ -1,15 +1,11 @@
-var lastid;
+var previous;
 function toggle_source(id) {
-  el = document.getElementById(id).style.display;
-  if (el === 'none' || el === '') {
-    if (lastid !== undefined) {
-      document.getElementById(lastid).style.display = 'none';
-    }
-    document.getElementById(id).style.display = 'block';
-  } else {
-    document.getElementById(id).style.display = 'none';
+  current = $("#" + id);
+  if (current.css("display") === "none" && previous !== undefined) {
+    previous.css("display", "none");
   }
-  lastid = id;
+  current.toggle();
+  previous = current;
 }
 
 var fnc;

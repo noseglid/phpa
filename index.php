@@ -92,7 +92,7 @@ $units = Database::getAll();
     <?php 
     $counter = 0;
     foreach ($units as $unit) {
-      $codeId = "{$unit['fnc']}:{$unit['file']}";
+      $codeId = md5("{$unit['fnc']}:{$unit['file']}");
     
       $class = "";
       if ($unit['err'] == 1) {
