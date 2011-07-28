@@ -126,7 +126,7 @@ $units = Database::getAll();
       <td><?= $unit['sloc']; ?></td>
     </tr>
     <div class="source-viewer" onclick="toggle_source('<?= $codeId; ?>');" id="<?= $codeId; ?>">
-      <pre><?= $unit['src']; ?></pre>
+      <pre><?= htmlspecialchars($unit['src']); ?></pre>
     </div>
   <?php 
   $counter++; 
