@@ -60,6 +60,10 @@ $stats = Database::getStatistics();
     <td>Warnings</td>
     <td><?=$stats['warnings']; ?></td>
   </tr>
+  <tr>
+    <td>Units done</td>
+    <td id="status_done"><?=$stats['status_done']; ?></td>
+  </tr>
 </table>
 
 <h2>Units</h2>

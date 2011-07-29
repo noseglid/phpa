@@ -51,7 +51,7 @@ class DatabaseTest extends PHPUnit_Extensions_Database_TestCase
       'src'         => '',
       'wrn'         => 0,
       'err'         => 0,
-      'status'      => 0,
+      'status'      => 1,
     );
 
     $unit2                = $unit1;
@@ -60,6 +60,7 @@ class DatabaseTest extends PHPUnit_Extensions_Database_TestCase
     $unit2['frequency']   = '2';
     $unit2['complexity']  = '2';
     $unit2['sloc']        = '11';
+    $unit2['status']      = '1';
 
     $unit3                = $unit1;
     $unit3['fnc']         = 'function3_from_xml';
@@ -67,6 +68,7 @@ class DatabaseTest extends PHPUnit_Extensions_Database_TestCase
     $unit3['frequency']   = '3';
     $unit3['complexity']  = '3';
     $unit3['sloc']        = '12';
+    $unit3['status']      = '0';
 
     $expected = array(
       $unit3,
@@ -143,6 +145,7 @@ class DatabaseTest extends PHPUnit_Extensions_Database_TestCase
       'mean_sloc_complexity'  => 5,             // (10+11+12)/(1+2+3)=5.5
       'errors'                => 0,
       'warnings'              => 0,
+      'status_done'           => 2,
     );
 
     $this->assertEquals($expected, Database::getStatistics());

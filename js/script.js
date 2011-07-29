@@ -32,6 +32,12 @@ function set_status(status) {
       success: function(msg){
         if (msg == 'true') {
           obj.attr('src', "images/"+status+".png");
+          var done = parseInt($('#status_done').html());
+          if (status == 'done') {
+            $('#status_done').html(done+1);
+          } else if (status == 'not_done') {
+            $('#status_done').html(done-1);
+          }
         }
         $("#statusboard").toggle();
       }

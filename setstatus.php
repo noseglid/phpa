@@ -21,7 +21,6 @@ if ($fnc != '' && $file != '' && $status != '') {
     echo "true";
   } else {
     echo "false";
-    print_r(PDO::errorInfo());
   }
 }
 

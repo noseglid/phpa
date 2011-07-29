@@ -106,7 +106,7 @@ class Database
   {
     $query = "UPDATE status
               SET status={$status}
-              WHERE fnc='{$fnc}' AND file='{$file}'";
+              WHERE fnc='{$fnc}' AND file='{$file}' AND status!={$status}";
     if (self::$db->exec($query) > 0) {
       return true;
     }
@@ -125,7 +125,10 @@ class Database
                      SUM(u.wrn) AS warnings,
                      (SELECT l.nbr_of_files_examined
                       FROM log l
-                      ORDER BY l.timestamp DESC LIMIT 1) AS number_of_files
+                      ORDER BY l.timestamp DESC LIMIT 1) AS number_of_files,
+                     (SELECT COUNT(s.status)
+                      FROM status s
+                      WHERE s.status=1) AS status_done
               FROM units u";
     $sth = self::$db->prepare($query);
     if ($sth) {

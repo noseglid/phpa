@@ -43,12 +43,12 @@
     <row>
       <value>function1_from_xml</value>
       <value>/test/file1.php</value>
-      <value>0</value>
+      <value>1</value>
     </row>
     <row>
       <value>function2_from_xml</value>
       <value>/test/file2.php</value>
-      <value>0</value>
+      <value>1</value>
     </row>
     <row>
       <value>function3_from_xml</value>
