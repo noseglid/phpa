@@ -21,15 +21,15 @@ class UnitAnalyzer extends Analyzer {
   public function analyze(&$data) {
     $this->initProgress(count($data['files']));
 
-    $count = count($data['files']);
-    for ($i = 0; $i < $count; $i++) {
-      if(0 === preg_match('/.Test\.php$/', $data['files'][$i])) {
+    foreach ($data['files'] as $k => $file) {
+      if(0 === preg_match('/.Test\.php$/', $file)) {
         $this->progress();
-        $this->locateUnits($data['files'][$i]);
+        $this->locateUnits($file);
       } else {
-        unset($data['files'][$i]);
+        unset($data['files'][$k]);
       }
     }
+    
     $data[UnitAnalyzer::$dataName] = $this->units;
   }
 

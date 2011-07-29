@@ -52,3 +52,15 @@ function format_seconds($sec) {
   return date("G:i:s", $sec-3600);
 }
 
+function trim_file_paths(&$data, $input_path) {
+  if ($input_path != "") {
+    foreach ($data['files'] as &$file) {
+      $file = str_replace($input_path, '', $file);
+    }
+    foreach ($data['units'] as &$unit) {
+      $unit['file'] = str_replace($input_path, '', $unit['file']);
+    }
+  }
+}
+
+

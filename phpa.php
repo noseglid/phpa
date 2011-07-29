@@ -53,6 +53,7 @@ if ($argc < 2) {
   usage();
 }
 
+$input_path  = "";
 $data        = array();
 $files       = array();
 $analyzers   = array();
@@ -98,7 +99,9 @@ for ($i = 1; $i < $argc; $i++) {
       $analyzers[SourceAnalyzer::$dataName]               = new SourceAnalyzer();
       $analyzers[CyclomaticComplexityAnalyzer::$dataName] = new CyclomaticComplexityAnalyzer();
       $analyzers[DependencyAnalyzer::$dataName]           = new DependencyAnalyzer();
-      parse_fs($data['files'], flagval($i, $argv), 'php');
+
+      $input_path = flagval($i, $argv);
+      parse_fs($data['files'], $input_path, 'php');
       break;
 
     default:
@@ -155,6 +158,7 @@ if (DEBUG) {
   fclose($fh);
 }
 
+trim_file_paths($data, $input_path);
 switch ($report_t) {
   case 'stdout':
     $reporter = new stdoutReporter($data, $report_f);
