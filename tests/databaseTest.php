@@ -11,6 +11,7 @@ class DatabaseTest extends PHPUnit_Extensions_Database_TestCase
   public function setUp()
   {
     Database::init($this->filename);
+    Database::createTables();
     parent::setUp();
   }
 

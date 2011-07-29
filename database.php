@@ -8,19 +8,17 @@ class Database
   const STATUS_WAITING  = 2;
 
   private static $db;
-  private static $db_exists;
 
   public static function init($filename = 'units.sqlite')
   {
-    self::$db_exists = file_exists($filename);
     self::$db = new PDO('sqlite:' . $filename);
-    self::$db->query('PRAGMA foreign_keys = ON');
-    self::createTable();
   }
 
-  private static function createTable()
+  public static function createTables()
   {
     self::$db->beginTransaction();
+
+    self::$db->exec("DROP TABLE IF EXISTS units");
 
     $query = "CREATE TABLE IF NOT EXISTS units (
                 fnc           TEXT    NOT NULL,
@@ -36,17 +34,12 @@ class Database
                 err           INTEGER NOT NULL DEFAULT 0,
                 PRIMARY KEY (fnc, file)
               )";
-
-    if (self::$db_exists) {
-      $query = "DROP TABLE IF EXISTS units";
-    }
     self::$db->exec($query);
 
     $query = 'CREATE TABLE IF NOT EXISTS status (
                 fnc           TEXT    NOT NULL,
                 file          TEXT    NOT NULL,
                 status        INTEGER NOT NULL DEFAULT 0,
-                FOREIGN KEY (fnc, file) REFERENCES units,
                 PRIMARY KEY (fnc, file)
               )';
     self::$db->exec($query);
@@ -80,7 +73,7 @@ class Database
     self::$db->beginTransaction();
 
     $stmt_log = self::$db->prepare("INSERT INTO log (timestamp, nbr_of_files_examined)
-                                     VALUES(:timestamp, :nbr)");
+                                    VALUES(:timestamp, :nbr)");
     $stmt_log->execute(array(':timestamp' => strftime('%Y-%m-%d %H:%M:%S'),
                              ':nbr' => count($data['files'])));
 
@@ -101,7 +94,7 @@ class Database
 
       $stmt_units = self::$db->prepare("INSERT INTO units ({$col}) VALUES({$val})");
       $stmt_units->execute($val_arr);
- 
+
       $stmt_status = self::$db->prepare("INSERT INTO status (fnc, file)
                                          VALUES(:fnc, :file)");
       $stmt_status->execute(array(":fnc" => $unit['fnc'], ":file" => $unit['file']));
