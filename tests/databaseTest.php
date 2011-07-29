@@ -76,38 +76,48 @@ class DatabaseTest extends PHPUnit_Extensions_Database_TestCase
     $this->assertEquals($expected, Database::getAll());
   }
 
-  public function insertUnits_dp()
+  public function insertData_dp()
   {
-    $unit1 = array(
-      array(
-        'fnc' => 'function2',
-        'file' => '/test/file2.php',
+    $data1 = array(
+      'count' => array(
+        'files' => '1',
+      ),
+      'units' => array(
+        array(
+          'fnc' => 'function2',
+          'file' => '/test/file2.php',
+        ),
       ),
     );
 
-    $unit2 = array(
-      array(
-        'fnc' => 'function2',
-        'file' => '/test/file2.php',
+    $data2 = array(
+      'count' => array(
+        'files' => '3',
       ),
-      array(
-        'fnc' => 'function2',
-        'file' => '/test/file3.php',
+      'units' => array(
+        array(
+          'fnc' => 'function2',
+          'file' => '/test/file2.php',
+        ),
+        array(
+          'fnc' => 'function2',
+          'file' => '/test/file3.php',
+        ),
       ),
     );
 
     return array(
-      array($unit1, true),
-      array($unit2, true),
+      array($data1, true),
+      array($data2, true),
     );
   }
 
   /**
-   * @dataProvider insertUnits_dp
+   * @dataProvider insertData_dp
    */
-  public function testInsertUnits($units, $expected)
+  public function testInsertUnits($data, $expected)
   {
-    $this->assertEquals($expected, Database::insertUnits($units));
+    $this->assertEquals($expected, Database::insertData($data));
   }
 
   public function testSetStatus()
@@ -124,7 +134,7 @@ class DatabaseTest extends PHPUnit_Extensions_Database_TestCase
   public function testGetStatistics()
   {
     $expected = array(
-      'number_of_files'       => 2,
+      'number_of_files'       => 5,
       'number_of_units'       => 3,
       'total_unit_sloc'       => 33,            // 10+11+12
       'average_sloc_unit'     => 11,            // (10+11+12)/3

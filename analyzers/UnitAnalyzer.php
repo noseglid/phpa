@@ -21,7 +21,8 @@ class UnitAnalyzer extends Analyzer {
   public function analyze(&$data) {
     $this->initProgress(count($data['files']));
 
-    for ($i = 0; $i < count($data['files']); $i++) {
+    $count = count($data['files']);
+    for ($i = 0; $i < $count; $i++) {
       if(0 === preg_match('/.Test\.php$/', $data['files'][$i])) {
         $this->progress();
         $this->locateUnits($data['files'][$i]);

@@ -49,7 +49,7 @@ abstract class Reporter {
 class DatabaseReporter extends Reporter {
   public function report() {
     Database::init($this->f);
-    Database::insertUnits($this->data['units']);
+    Database::insertData($this->data);
   }
 
   public function describe() {

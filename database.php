@@ -51,6 +51,12 @@ class Database
               )';
     self::$db->exec($query);
 
+    $query = 'CREATE TABLE IF NOT EXISTS log (
+                timestamp             TEXT    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                nbr_of_files_examined INTEGER NOT NULL DEFAULT 0
+              )';
+    self::$db->exec($query);
+    
     return self::$db->commit();
   }
 
@@ -69,10 +75,16 @@ class Database
     return $result;
   }
 
-  public static function insertUnits($units)
+  public static function insertData($data)
   {
     self::$db->beginTransaction();
 
+    $stmt_log = self::$db->prepare("INSERT INTO log (timestamp, nbr_of_files_examined)
+                                     VALUES(:timestamp, :nbr)");
+    $stmt_log->execute(array(':timestamp' => strftime('%Y-%m-%d %H:%M:%S'),
+                             ':nbr' => count($data['files'])));
+
+    $units = $data['units'];
     foreach ($units as $unit) {
       $col = '';
       $val = '';
@@ -111,14 +123,16 @@ class Database
   public static function getStatistics()
   {
     $result = array();
-    $query = "SELECT COUNT(DISTINCT u.file) AS number_of_files,
-                     COUNT(u.fnc) AS number_of_units,
+    $query = "SELECT COUNT(u.fnc) AS number_of_units,
                      SUM(u.sloc) AS total_unit_sloc,
                      (SUM(u.sloc)/COUNT(u.fnc)) AS average_sloc_unit,
                      (SUM(u.complexity)/COUNT(u.fnc)) AS average_complexity,
                      (SUM(u.sloc)/SUM(u.complexity)) AS mean_sloc_complexity,
-                     SUM(err) AS errors,
-                     SUM(wrn) AS warnings
+                     SUM(u.err) AS errors,
+                     SUM(u.wrn) AS warnings,
+                     (SELECT l.nbr_of_files_examined
+                      FROM log l
+                      ORDER BY l.timestamp DESC LIMIT 1) AS number_of_files
               FROM units u";
     $sth = self::$db->prepare($query);
     if ($sth) {
