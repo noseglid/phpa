@@ -131,7 +131,7 @@ class DatabaseTest extends PHPUnit_Extensions_Database_TestCase
 
     $fnc  = 'function1_from_xml';
     $file = '/test/file1.php';
-    $this->assertTrue(Database::setStatus($fnc, $file, Database::STATUS_DONE));
+    $this->assertTrue(Database::setStatus($fnc, $file, Database::STATUS_WAITING));
   }
 
   public function testGetStatistics()
