@@ -49,7 +49,7 @@ class Database
                 nbr_of_files_examined INTEGER NOT NULL DEFAULT 0
               )';
     self::$db->exec($query);
-    
+
     return self::$db->commit();
   }
 
@@ -59,7 +59,7 @@ class Database
     $query = 'SELECT u.*, s.status FROM units u
               LEFT JOIN status s
               ON s.fnc=u.fnc AND s.file=u.file
-              ORDER BY u.frequency DESC';
+              ORDER BY u.frequency DESC, u.complexity DESC, u.dependency DESC';
     $sth = self::$db->prepare($query);
     if ($sth) {
       $sth->execute();
