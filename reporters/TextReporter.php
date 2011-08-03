@@ -1,5 +1,7 @@
 <?php
 
+namespace Reporters;
+
 class TextReporter extends Reporter {
 
   public function report() {

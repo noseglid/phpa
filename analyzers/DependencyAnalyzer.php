@@ -1,6 +1,8 @@
 <?php
-require_once 'analyzer.php';
-require_once 'config.php';
+
+namespace Analyzers;
+
+use Config\Config;
 
 class DependencyAnalyzer extends Analyzer {
   public static $dataName = "dependency";
@@ -110,9 +112,4 @@ class DependencyAnalyzer extends Analyzer {
   public function describe() {
     return "unit dependencies";
   }
-
-  public function __toString() {
-    return "DependencyAnalyzer";
-  }
 }
-

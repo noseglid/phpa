@@ -1,5 +1,17 @@
 <?php
 
+namespace Reporters;
+
+use \Exception;
+use \Graph;
+use \ScatterPlot;
+
+use Exceptions\DiagramException;
+
+require_once 'jpgraph/jpgraph.php';
+require_once 'jpgraph/jpgraph_scatter.php';
+require_once 'jpgraph/jpgraph_log.php';
+
 class DiagramReporter extends Reporter {
   private $datatype, $scales;
 

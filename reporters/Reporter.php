@@ -1,12 +1,8 @@
 <?php
 
-require_once 'functions/xml_array.php';
-require_once 'functions/common.php';
-require_once 'database.php';
+namespace Reporters;
 
-require_once 'jpgraph/jpgraph.php';
-require_once 'jpgraph/jpgraph_scatter.php';
-require_once 'jpgraph/jpgraph_log.php';
+require_once 'functions/common.php';
 
 abstract class Reporter {
   protected $data;
@@ -26,7 +22,7 @@ abstract class Reporter {
   abstract public function describe();
 
   private function openFile() {
-    if ($file_open) {
+    if ($this->file_open) {
       return;
     }
 

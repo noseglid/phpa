@@ -1,7 +1,8 @@
 <?php
 
+namespace Analyzers;
+
 require_once 'functions/common.php';
-use_folder('analyzers');
 
 abstract class Analyzer {
   private $flip, $count;
@@ -39,6 +40,13 @@ abstract class Analyzer {
       $this->count = 0;
     }
   }
-}
 
-?>
+  public function __toString()
+  {
+    return get_called_class();
+  }
+
+  public static function text() {
+    return get_called_class();
+  }
+}

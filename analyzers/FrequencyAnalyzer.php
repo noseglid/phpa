@@ -1,6 +1,6 @@
 <?php
 
-require_once 'analyzer.php';
+namespace Analyzers;
 
 class FrequencyAnalyzer extends analyzer {
   public static $dataName = 'frequency';
@@ -62,9 +62,4 @@ class FrequencyAnalyzer extends analyzer {
   public function describe() {
     return 'unit frequency';
   }
-
-  public function __toString() {
-    return 'FrequencyAnalyzer';
-  }
 }
-

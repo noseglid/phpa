@@ -1,6 +1,7 @@
 <?php
 
-require_once 'analyzer.php';
+namespace Analyzers;
+
 require_once 'functions/common.php';
 
 class SourceAnalyzer extends Analyzer {
@@ -77,9 +78,4 @@ class SourceAnalyzer extends Analyzer {
   public function describe() {
     return "source code";
   }
-
-  public function __toString() {
-    return "SourceAnalyzer";
-  }
 }
-

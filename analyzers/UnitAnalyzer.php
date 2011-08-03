@@ -1,6 +1,7 @@
 <?php
 
-require_once 'analyzer.php';
+namespace Analyzers;
+
 require_once 'functions/source_parser.php';
 
 /**
@@ -29,7 +30,7 @@ class UnitAnalyzer extends Analyzer {
         unset($data['files'][$k]);
       }
     }
-    
+
     $data[UnitAnalyzer::$dataName] = $this->units;
   }
 
@@ -98,10 +99,4 @@ class UnitAnalyzer extends Analyzer {
   public function describe() {
     return 'units in the system';
   }
-
-  public static function __toString() {
-    return 'UnitAnalyzer';
-  }
-
 }
-

@@ -1,12 +1,26 @@
 #!/usr/bin/php
 <?php
 
-DEFINE(DEBUG, false);
+define('DEBUG', 0);
 
-require_once "config.php";
-require_once "analyzer.php";
-require_once "reporter.php";
-require_once "functions/common.php";
+require_once dirname(__FILE__) . '/Config/init.php';
+
+use Config\Config;
+
+use Analyzers\CyclomaticComplexityAnalyzer;
+use Analyzers\DependencyAnalyzer;
+use Analyzers\SourceAnalyzer;
+use Analyzers\UnitAnalyzer;
+use Analyzers\WarningAnalyzer;
+use Analyzers\FrequencyAnalyzer;
+use Analyzers\XMLAnalyzer;
+
+use Reporters\DatabaseReporter;
+use Reporters\DiagramReporter;
+use Reporters\HTMLReporter;
+use Reporters\StdoutReporter;
+use Reporters\TextReporter;
+use Reporters\XMLReporter;
 
 echo 'PHP Analyzer by Alexander Olsson - Version ' . Config::$version . "\n\n";
 
@@ -161,11 +175,11 @@ if (DEBUG) {
 trim_file_paths($data, $input_path);
 switch ($report_t) {
   case 'stdout':
-    $reporter = new stdoutReporter($data, $report_f);
+    $reporter = new StdoutReporter($data, $report_f);
     break;
 
   case 'text':
-    $reporter = new textReporter($data, $report_f);
+    $reporter = new TextReporter($data, $report_f);
     break;
 
   case 'html':

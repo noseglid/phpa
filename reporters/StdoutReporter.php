@@ -1,5 +1,9 @@
 <?php
 
+namespace Reporters;
+
+use Analyzers\UnitAnalyzer;
+
 class StdoutReporter extends Reporter {
 
   public function report() {

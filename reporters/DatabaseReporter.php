@@ -1,5 +1,9 @@
 <?php
 
+namespace Reporters;
+
+use Functions\Databases\Database;
+
 class DatabaseReporter extends Reporter {
   public function report() {
     Database::init($this->f);

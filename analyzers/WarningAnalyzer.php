@@ -1,6 +1,6 @@
 <?php
 
-require_once 'analyzer.php';
+namespace Analyzers;
 
 class WarningAnalyzer extends Analyzer {
   public static $dataName = 'wrn';
@@ -28,10 +28,4 @@ class WarningAnalyzer extends Analyzer {
   public function describe() {
     return 'unit warnings';
   }
-
-  public static function __toString() {
-    return 'WarningAnalyzer';
-  }
-
 }
-
