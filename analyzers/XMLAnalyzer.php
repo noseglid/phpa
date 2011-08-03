@@ -1,26 +1,22 @@
 <?php
 
-require_once 'analyzer.php';
-require_once 'functions/xml_array.php';
+namespace Analyzers;
 
-class XMLAnalyzer extends analyzer {
-    public static $dataName = false;
-    private $file;
+use Functions\XML\XML2Array;
 
-    public function __construct($xml_file) {
-      $this->file = $xml_file;
-    }
+class XMLAnalyzer extends Analyzer {
+  public static $dataName = false;
+  private $file;
 
-    public function analyze(&$data) {
-      $data = xml2array(simplexml_load_file($this->file));
-    }
+  public function __construct($xml_file) {
+    $this->file = $xml_file;
+  }
 
-    public function describe() {
-      return 'multiple data from xml file';
-    }
+  public function analyze(&$data) {
+    $data = XML2Array::get(simplexml_load_file($this->file));
+  }
 
-    public function __toString() {
-      return 'XMLAnalyzer';
-    }
+  public function describe() {
+    return 'multiple data from xml file';
+  }
 }
-

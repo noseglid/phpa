@@ -1,6 +1,7 @@
 <?php
 
-require_once 'analyzer.php';
+namespace Analyzers;
+
 require_once 'UnitAnalyzer.php';
 
 class CyclomaticComplexityAnalyzer extends Analyzer {
@@ -62,9 +63,5 @@ class CyclomaticComplexityAnalyzer extends Analyzer {
 
   public function describe() {
     return "complexity of units";
-  }
-
-  public static function __toString() {
-    return "CyclomaticComplexityAnalyzer";
   }
 }

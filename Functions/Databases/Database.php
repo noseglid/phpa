@@ -1,5 +1,9 @@
 <?php
 
+namespace Functions\Databases;
+
+use \PDO;
+
 class Database
 {
 
