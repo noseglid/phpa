@@ -93,11 +93,11 @@ $units = Database::getAll();
       <th>Dependencies<br>(int / ext)</th>
       <th>SLOC</th>
     </tr>
-    <?php 
+    <?php
     $counter = 0;
     foreach ($units as $unit) {
       $codeId = md5("{$unit['fnc']}:{$unit['file']}");
-    
+
       $class = "";
       if ($unit['err'] == 1) {
         $class = 'error';
@@ -119,7 +119,7 @@ $units = Database::getAll();
              class="clickable"
              onclick="show_statusboard($(this), '<?= $unit['fnc'] ?>', '<?= $unit['file'] ?>')">
       </td>
-      <td class="clickable" onclick="toggle_source('<?= $codeId; ?>');" >
+      <td class="clickable" onclick="toggle_source('<?= $codeId; ?>', '<?= $unit['fnc']; ?>', '<?= $unit['file']; ?>');">
         <?= $unit['fnc']; ?>
       </td>
       <td><?= $unit['file']; ?></td>
@@ -129,11 +129,10 @@ $units = Database::getAll();
       <td><?= $unit['dependency']; ?></td>
       <td><?= $unit['sloc']; ?></td>
     </tr>
-    <div class="source-viewer" onclick="toggle_source('<?= $codeId; ?>');" id="<?= $codeId; ?>">
-      <pre><?= htmlspecialchars($unit['src']); ?></pre>
+    <div class="source-viewer" onclick="toggle_source('<?= $codeId; ?>', '<?= $unit['fnc']; ?>', '<?= $unit['file']; ?>');" id="<?= $codeId; ?>">
     </div>
-  <?php 
-  $counter++; 
+  <?php
+  $counter++;
   }
   ?>
   </table>
