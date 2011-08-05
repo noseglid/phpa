@@ -61,6 +61,7 @@ class DatabaseTest extends PHPUnit_Extensions_Database_TestCase
     $unit2['complexity']  = '2';
     $unit2['sloc']        = '11';
     $unit2['status']      = '1';
+    $unit2['src']         = "<?php echo 'test'; ?>";
 
     $unit3                = $unit1;
     $unit3['fnc']         = 'function3_from_xml';
@@ -149,6 +150,23 @@ class DatabaseTest extends PHPUnit_Extensions_Database_TestCase
     );
 
     $this->assertEquals($expected, Database::getStatistics());
+  }
+
+  public function getSrc_dp()
+  {
+    return array(
+      array('function2_from_xml', '/test/file2.php', "<?php echo 'test'; ?>"),
+      array('function1_from_xml', '/test/file1.php', ""),
+      array('function_exist_not', '/test/file1.php', false),
+    );
+  }
+
+  /**
+   * @dataProvider getSrc_dp
+   */
+  public function testGetSrc($fnc, $file, $expected)
+  {
+    $this->assertSame($expected, Database::getSrc($fnc, $file));
   }
 }
 

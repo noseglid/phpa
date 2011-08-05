@@ -1,8 +1,23 @@
 var previous;
-function toggle_source(id) {
+function toggle_source(id, fncname, filename) {
   current = $("#" + id);
-  if (current.css("display") === "none" && previous !== undefined) {
-    previous.css("display", "none");
+
+  if (current.css("display") === "none") {
+    current.html('<img src="images/loader.gif" alt="loading...">');
+    $.ajax({
+      type: "GET",
+      dataType: "text",
+      url: "getsrc.php",
+      data: "fnc="+fncname+"&file="+filename,
+      success: function(msg){
+        if (msg != 'false') {
+          current.html('<pre>' + msg + '</pre>');
+        }
+      }
+    });
+    if (previous !== undefined) {
+      previous.hide();
+    }
   }
   current.toggle();
   previous = current;

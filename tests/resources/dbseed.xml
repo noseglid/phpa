@@ -14,12 +14,14 @@
     <column>frequency</column>
     <column>complexity</column>
     <column>sloc</column>
+    <column>src</column>
     <row>
       <value>function1_from_xml</value>
       <value>/test/file1.php</value>
       <value>1</value>
       <value>1</value>
       <value>10</value>
+      <value></value>
     </row>
     <row>
       <value>function2_from_xml</value>
@@ -27,6 +29,7 @@
       <value>2</value>
       <value>2</value>
       <value>11</value>
+      <value><![CDATA[<?php echo 'test'; ?>]]></value>
     </row>
     <row>
       <value>function3_from_xml</value>
@@ -34,6 +37,7 @@
       <value>3</value>
       <value>3</value>
       <value>12</value>
+      <value></value>
     </row>
   </table>
   <table name="status">

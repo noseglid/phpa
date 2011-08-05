@@ -87,7 +87,7 @@ class Database
         $k = sqlite_escape_string($k);
         $col .= "$k, ";
         $val .= ":$k, ";
-        $val_arr[":$k"] = sqlite_escape_string($v);
+        $val_arr[":$k"] = $v;
       }
       $col = trim($col, ', ');
       $val = trim($val, ', ');
@@ -136,6 +136,18 @@ class Database
       $result = $sth->fetchAll(PDO::FETCH_ASSOC);
     }
     return $result[0];
+  }
+
+  public static function getSrc($fnc, $file)
+  {
+    $query = "SELECT src FROM units WHERE fnc=:fnc AND file=:file";
+    if ($stmt = self::$db->prepare($query)) {
+      $stmt->execute(array(':fnc' => $fnc, ':file' => $file));
+      if ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        return $result['src'];
+      }
+    }
+    return false;
   }
 }
 
