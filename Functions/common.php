@@ -23,7 +23,7 @@ function parse_fs(&$files, $file, $ext) {
 
   if (is_file($file)) {
     $info = pathinfo($file);
-    if(0 === strcasecmp($info['extension'], $ext)) {
+    if(isset($info['extension']) && 0 === strcasecmp($info['extension'], $ext)) {
       $files[] = $file;
     }
     return;
