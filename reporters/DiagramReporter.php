@@ -13,41 +13,40 @@ require_once 'jpgraph/jpgraph_scatter.php';
 require_once 'jpgraph/jpgraph_log.php';
 
 class DiagramReporter extends Reporter {
-  private $datatype, $scales;
+  private $dt, $scales;
 
   public function __construct($data, $f, $dt, $scales) {
     parent::__construct($data, $f);
+
     if (empty($dt)) {
-      $dt = 'complexity:frequency';
+      throw new Exception('Data type not specified.');
     }
-
     if (empty($scales)) {
-      $scales = 'loglog';
+      throw new Exception('Data type not specified.');
     }
 
-    $this->datatype = preg_split('/:/', $dt);
-    $this->scales   = $scales;
+    list($this->dt['x'], $this->dt['y']) = preg_split('/:/', $dt);
+    $this->scales                        = $scales;
   }
 
   public function report() {
     $xdata = array();
     $ydata = array();
-    $xrange = $this->limits[0];
-    $yrange = $this->limits[1];
+
     foreach ($this->data['units'] as $unit) {
       if (1 == $unit['err']) {
         continue;
       }
 
-      $dx = $this->getValue($this->datatype[0], $unit);
-      $dy = $this->getValue($this->datatype[1], $unit);
-      if ($dx < 0 || $dy < 0) {
-        var_dump($unit);
+      $dx = $this->getValue($this->dt['x'], $unit);
+      if (false === $dx) {
+        throw new DiagramException(sprintf("Data '%s' (x-axis) is not available.",
+                                           $this->dt['x']));
       }
-      if (false === $dx || false === $dy) {
-        var_dump($unit);
-        throw new Exception("Unable to interpret axis data: ".
-            $this->datatype[0] . ':' . $this->datatype[1]);
+      $dy = $this->getValue($this->dt['y'], $unit);
+      if (false === $dy) {
+        throw new DiagramException(sprintf("Data '%s' (x-axis) is not available.",
+                                           $this->dt['y']));
       }
       $xdata[] = $dx;
       $ydata[] = $dy;
@@ -70,7 +69,7 @@ class DiagramReporter extends Reporter {
     $graph->img->Setmargin(40, 40, 40, 40);
     $graph->SetShadow();
     $graph->title->SetFont(FF_FONT1, FS_BOLD);
-    $graph->title->Set("{$this->datatype[0]}:{$this->datatype[1]}");
+    $graph->title->Set("{$this->dt['x']}:{$this->dt['y']}");
 
     $sp = new ScatterPlot($ydata, $xdata);
     $sp->mark->SetSize(2);
@@ -83,5 +82,3 @@ class DiagramReporter extends Reporter {
     return "diagram";
   }
 }
-
-

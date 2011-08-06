@@ -187,6 +187,14 @@ switch ($report_t) {
     break;
 
   case 'diagram':
+    if (!isset($dt)) {
+      printf('Data type (-dt) not set. Defaulting to \'sloc:complexity\'%s', PHP_EOL);
+      $dt = 'sloc:complexity';
+    }
+    if (!isset($ds)) {
+      printf('Data scales (-ds) not set. Defaulting to \'log:log\'%s', PHP_EOL);
+      $ds = 'log:log';
+    }
     $reporter = new DiagramReporter($data, $report_f, $dt, $ds);
     break;
 
