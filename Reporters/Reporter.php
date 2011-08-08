@@ -2,8 +2,6 @@
 
 namespace Reporters;
 
-require_once 'Functions/common.php';
-
 abstract class Reporter {
   protected $data;
   protected $f;

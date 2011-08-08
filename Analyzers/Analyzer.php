@@ -2,8 +2,6 @@
 
 namespace Analyzers;
 
-require_once 'Functions/common.php';
-
 abstract class Analyzer {
   private $flip, $count;
   private $flips, $start, $total_flips;
@@ -48,5 +46,10 @@ abstract class Analyzer {
 
   public static function text() {
     return get_called_class();
+  }
+
+  private function timerep($sec)
+  {
+    return date("G:i:s", $sec-3600); //FIXME: only works in GMT+1 timezone.
   }
 }

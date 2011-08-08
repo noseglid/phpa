@@ -7,6 +7,8 @@ require_once dirname(__FILE__) . '/Config/init.php';
 
 use Config\Config;
 
+use Functions\Filesystem;
+
 use Analyzers\CyclomaticComplexityAnalyzer;
 use Analyzers\DependencyAnalyzer;
 use Analyzers\SourceAnalyzer;
@@ -96,7 +98,7 @@ for ($i = 1; $i < $argc; $i++) {
 
     case '-xdbt':
       $analyzers[FrequencyAnalyzer::$dataName] = new FrequencyAnalyzer();
-      parse_fs($data['xdbt'], flagval($i, $argv), 'xt');
+      Filesystem::findByExtension($data['xdbt'], flagval($i, $argv), 'xt');
       break;
 
     case '-xdbtl':
@@ -123,7 +125,7 @@ for ($i = 1; $i < $argc; $i++) {
       $analyzers[DependencyAnalyzer::$dataName]           = new DependencyAnalyzer();
 
       $input_path = flagval($i, $argv);
-      parse_fs($data['files'], $input_path, 'php');
+      Filesystem::filesByExtension($data['files'], $input_path, 'php');
       break;
 
     default:
@@ -173,7 +175,7 @@ $dur = microtime(true) - $start;
 
 echo "Analyzing using " . count($analyzers) . " analyzers took $dur s.\n";
 
-trim_file_paths($data, $input_path);
+Filesystem::trimFilePaths($data, $input_path);
 switch ($report_t) {
   case 'stdout':
     $reporter = new StdoutReporter($data, $report_f);

@@ -60,7 +60,7 @@ class DiagramReporter extends Reporter {
     foreach ($holder as $key => $value) {
       $mathstr = preg_replace("/$key/", $value, $mathstr);
     }
-    return interp_math($mathstr);
+    return $this->interpMath($mathstr);
   }
 
   public function doGraph($xdata, $ydata) {
@@ -81,4 +81,14 @@ class DiagramReporter extends Reporter {
   public function describe() {
     return "diagram";
   }
+
+  private function interpMath($string) {
+    if (0 === preg_match('/[0-9][0-9\+\-\*%\/\(\)]*/', $string)) {
+      return false;
+    }
+    $f = create_function('', "return $string;");
+    return $f();
+}
+
+
 }
