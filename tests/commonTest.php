@@ -7,32 +7,6 @@ require_once dirname(__FILE__) . '/../functions/common.php';
 
 class commonTest extends PHPUnit_Framework_TestCase {
 
-/*
-  function testUseFolder() {
-    $this->markTestIncomplete('Not done yet');
-    $p = new vfsStreamDirectory('dir', 0664);
-    $f1 = vfsStream::newFile('file.php', 0664);
-    $f1->withContent("<?php\nfunction afnc() {\n  return true;\n}\n?>");
-    $f2 = vfsStream::newFile('file.notphp', 0664);
-    $f2->withContent('<?php function bfnc() { return false; } ?>');
-    $p->addChild($f1);
-    $p->addChild($f2);
-
-    vfsStreamWrapper::getRoot()->addChild($p);
-
-    $this->assertTrue(use_folder(vfsStream::url('dir')));
-    $this->assertTrue(function_exists('afnc'),
-      'function \'afnc\' does not exists, though it should.');
-    $this->assertFalse(function_exists('bfnc'),
-      'function \'bfnc\' exists, though it shouldn\'t');
-  }
-*/
-
-  function testUseNonExistingFolder() {
-    $this->assertFalse(use_folder(vfsStream::url('no_dir')));
-  }
-
-
   public static function interpMath_dp() {
     return array(
       array('1',      '1'),
