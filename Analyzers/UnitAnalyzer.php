@@ -2,7 +2,7 @@
 
 namespace Analyzers;
 
-require_once 'functions/source_parser.php';
+require_once 'Functions/source_parser.php';
 
 /**
  * A analyzer which finds units in a source code tree.
