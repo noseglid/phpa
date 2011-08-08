@@ -2,7 +2,7 @@
 
 namespace Analyzers;
 
-require_once 'functions/common.php';
+require_once 'Functions/common.php';
 
 class SourceAnalyzer extends Analyzer {
   public static $dataName = 'src';
