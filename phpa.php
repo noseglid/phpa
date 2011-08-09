@@ -70,7 +70,7 @@ function flagval(&$i, $argv) {
 }
 
 function elog($message, $type = 'Warning') {
-  echo "$type: $message\n";
+  echo "\n-!- $type: $message\n";
 }
 
 if ($argc < 2) {
@@ -141,12 +141,8 @@ for ($i = 1; $i < $argc; $i++) {
  */
 $analyzers[WarningAnalyzer::$dataName] = new WarningAnalyzer();
 
-
-if (
-   (!empty($report_t) && empty($report_f)) ||
-   (empty($report_t) && !empty($report_f))
-   )
-{
+if ((!empty($report_t) &&  empty($report_f)) ||
+     (empty($report_t) && !empty($report_f))) {
    usage();
 }
 

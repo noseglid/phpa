@@ -27,6 +27,11 @@ class Array2XML
     return $this->dom->saveXML();
   }
 
+  public function __toString()
+  {
+    return $this->get();
+  }
+
   private function structXML($array, &$p) {
     foreach($array as $k => $v) {
       if(is_array($v)) {

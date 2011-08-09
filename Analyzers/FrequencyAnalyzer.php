@@ -2,6 +2,8 @@
 
 namespace Analyzers;
 
+use \Exception;
+
 class FrequencyAnalyzer extends analyzer {
   public static $dataName = 'frequency';
 
@@ -11,7 +13,7 @@ class FrequencyAnalyzer extends analyzer {
     }
 
     if (empty($data['units'])) {
-      throw new Exception(UnitAnalyzer::__toString() . " must be run prior to $this\n");
+      throw new Exception(UnitAnalyzer::text() . " must be run prior to $this\n");
     }
 
     $count = count($data['xdbt']);

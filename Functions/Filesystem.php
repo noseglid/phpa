@@ -25,19 +25,23 @@ class Filesystem
           continue;
         }
 
-        $this->parseFilesystem($files, $path . $df, $ext);
+        self::filesByExtension($files, $path . $df, $ext);
       }
     }
   }
 
-  public static function trimFilePaths(&$data, $input_path) {
-    if ($input_path != "") {
-      foreach ($data['files'] as &$file) {
-        $file = str_replace($input_path, '', $file);
-      }
-      foreach ($data['units'] as &$unit) {
-        $unit['file'] = str_replace($input_path, '', $unit['file']);
-      }
+  public static function trimFilePaths(&$data, $input_path)
+  {
+    if (empty($input_path) || 0 === count($data['files'])) {
+      return;
+    }
+
+    foreach ($data['files'] as &$file) {
+      $file = str_replace($input_path, '', $file);
+    }
+
+    foreach ($data['units'] as &$unit) {
+      $unit['file'] = str_replace($input_path, '', $unit['file']);
     }
   }
 }
