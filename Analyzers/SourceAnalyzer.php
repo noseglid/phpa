@@ -2,12 +2,14 @@
 
 namespace Analyzers;
 
+use \Exception;
+
 class SourceAnalyzer extends Analyzer {
   public static $dataName = 'src';
 
   public function analyze(&$data) {
     if (empty($data['units'])) {
-      throw new Exception(UnitAnalyzer::__toString() . " must be run prior to $this\n");
+      throw new Exception(UnitAnalyzer::text() . " must be run prior to $this\n");
     }
     $this->initProgress(count($data['units']));
     foreach ($data['units'] as &$unit) {

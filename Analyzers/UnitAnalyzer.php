@@ -4,6 +4,8 @@ namespace Analyzers;
 
 require_once 'Functions/source_parser.php';
 
+use \Exception;
+
 /**
  * A analyzer which finds units in a source code tree.
  *
@@ -22,7 +24,7 @@ class UnitAnalyzer extends Analyzer {
   public function analyze(&$data) {
     $this->initProgress(count($data['files']));
 
-    foreach ($data['files'] as $k => $file) {
+    foreach ((array)$data['files'] as $k => $file) {
       if(0 === preg_match('/.Test\.php$/', $file)) {
         $this->progress();
         $this->locateUnits($file);

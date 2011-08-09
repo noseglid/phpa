@@ -2,6 +2,7 @@
 
 namespace Analyzers;
 
+use \Exception;
 use Config\Config;
 
 class DependencyAnalyzer extends Analyzer {
@@ -11,7 +12,7 @@ class DependencyAnalyzer extends Analyzer {
 
   public function analyze(&$data) {
     if (empty($data[UnitAnalyzer::$dataName])) {
-      throw new Exception(UnitAnalyzer::__toString() . " must be run prior to $this\n");
+      throw new Exception(UnitAnalyzer::text() . " must be run prior to $this\n");
     }
     $this->initProgress(count($data['units']));
     $this->setData($data);

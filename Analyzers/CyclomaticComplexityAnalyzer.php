@@ -2,14 +2,14 @@
 
 namespace Analyzers;
 
-require_once 'UnitAnalyzer.php';
+use \Exception;
 
 class CyclomaticComplexityAnalyzer extends Analyzer {
   public static $dataName = 'complexity';
 
   public function analyze(&$data) {
     if (empty($data['units'])) {
-      throw new Exception(UnitAnalyzer::__toString() . " must be run prior to $this\n");
+      throw new Exception(UnitAnalyzer::text() . " must be run prior to $this\n");
     }
 
     $this->initProgress(count($data['units']));
