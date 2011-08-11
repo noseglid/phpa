@@ -1,10 +1,11 @@
 <?php
 
+require_once dirname(__FILE__) . '/config_tests.php';
 require_once 'vfsStream/vfsStream.php';
-require_once 'PHPUnit/Framework.php';
-require_once 'analyzers/SourceAnalyzer.php';
 
-include 'tests/data/common.php';
+require 'tests/data/common.php';
+
+use Analyzers\SourceAnalyzer;
 
 class SATest extends PHPUnit_Framework_TestCase {
   private $sa;
@@ -22,7 +23,7 @@ class SATest extends PHPUnit_Framework_TestCase {
 
   public function testConstStrings() {
     $this->assertEquals('source code', $this->sa->describe());
-    $this->assertEquals('SourceAnalyzer', $this->sa->__toString());
+    $this->assertEquals('Analyzers\SourceAnalyzer', $this->sa->__toString());
     $this->assertEquals('src', SourceAnalyzer::$dataName);
   }
 

@@ -1,9 +1,10 @@
 <?php
 
-require_once 'PHPUnit/Framework.php';
-require_once 'analyzers/UnitAnalyzer.php';
+require_once dirname(__FILE__) . '/config_tests.php';
+require_once 'vfsStream/vfsStream.php';
+require 'tests/data/common.php';
 
-include 'tests/data/common.php';
+use Analyzers\UnitAnalyzer;
 
 class UATest extends PHPUnit_Framework_TestCase {
   private $ua;
@@ -18,7 +19,7 @@ class UATest extends PHPUnit_Framework_TestCase {
 
   function testConstStrings() {
     $this->assertEquals('units in the system', $this->ua->describe());
-    $this->assertEquals('UnitAnalyzer', $this->ua->__toString());
+    $this->assertEquals('Analyzers\UnitAnalyzer', $this->ua->__toString());
     $this->assertEquals('units', UnitAnalyzer::$dataName);
   }
 
@@ -38,7 +39,11 @@ class UATest extends PHPUnit_Framework_TestCase {
    */
   function testFindUnit($line, $expected) {
     $this->ua->findUnit($line);
-    $this->assertEquals($expected, $this->ua->units[0]['fnc']);
+    if ('' === $expected) {
+      $this->assertFalse(isset($this->ua->units[0]['fnc']));
+    } else {
+      $this->assertEquals($expected, $this->ua->units[0]['fnc']);
+    }
   }
 
   function testLocateUnitsNoFile() {

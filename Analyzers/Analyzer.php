@@ -28,9 +28,9 @@ abstract class Analyzer {
       $total_time = $dur/$done;
       if ($dur > 10) {
         echo "\n[" . $this->__toString() . "]\n";
-        echo "        Elapsed: " . format_seconds(round($dur)) . " s\n";
-        echo " Est. Time left: " . format_seconds(round($total_time-$dur)) . " s\n";
-        echo "Est. Total time: " . format_seconds(round($total_time)) . " s \n";
+        echo "        Elapsed: " . $this->timerep(round($dur)) . " s\n";
+        echo " Est. Time left: " . $this->timerep(round($total_time-$dur)) . " s\n";
+        echo "Est. Total time: " . $this->timerep(round($total_time)) . " s \n";
         echo "      Completed: " . round(100*$this->flips/$this->total_flips, 2) ." %\n";
       } else {
         echo ".";

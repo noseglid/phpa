@@ -1,13 +1,15 @@
 <?php
-require_once 'PHPUnit/Framework.php';
-require_once 'reporter.php';
+
+require_once dirname(__FILE__) . '/config_tests.php';
+
+use Reporters\DiagramReporter;
 
 class DiagramReporterTest extends PHPUnit_Framework_TestCase {
 
   private $dr;
 
   public function setUp() {
-    $this->dr = new DiagramReporter($null, $null, $null, $null);
+    $this->dr = new DiagramReporter('a', 'b', 'c:f', 'd');
   }
 
   public static function getValue_dp() {
@@ -28,4 +30,3 @@ class DiagramReporterTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($expected, $val);
   }
 }
-

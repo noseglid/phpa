@@ -1,10 +1,10 @@
 <?php
 
-require_once 'PHPUnit/Framework.php';
-require_once 'analyzers/FrequencyAnalyzer.php';
+require_once dirname(__FILE__) . '/config_tests.php';
 require_once 'vfsStream/vfsStream.php';
+require 'tests/data/frequency_analyzer.php';
 
-include 'tests/data/frequency_analyzer.php';
+use Analyzers\FrequencyAnalyzer;
 
 class FrequencyAnalyzerTest extends PHPUnit_Framework_TestCase {
   protected $fa, $fs;
@@ -67,7 +67,7 @@ class FrequencyAnalyzerTest extends PHPUnit_Framework_TestCase {
 
   public function testConstStrings() {
     $this->assertEquals('unit frequency', $this->fa->describe());
-    $this->assertEquals('FrequencyAnalyzer', $this->fa->__toString());
+    $this->assertEquals('Analyzers\FrequencyAnalyzer', $this->fa->__toString());
     $this->assertEquals('frequency', FrequencyAnalyzer::$dataName);
   }
 }

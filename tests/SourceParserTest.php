@@ -1,7 +1,6 @@
 <?php
 
-require_once 'PHPUnit/Framework.php';
-require_once 'functions/source_parser.php';
+require_once 'Functions/source_parser.php';
 
 class SourceParserTest extends PHPUnit_Framework_TestCase {
 

@@ -1,9 +1,10 @@
 <?php
-require_once 'PHPUnit/Framework.php';
-require_once 'analyzers/FrequencyAnalyzer.php';
-require_once 'vfsStream/vfsStream.php';
 
+require_once dirname(__FILE__) . '/config_tests.php';
+require_once 'vfsStream/vfsStream.php';
 include 'tests/data/xml_analyzer.php';
+
+use Analyzers\XMLAnalyzer;
 
 class XMLAnalyzerTest extends PHPUnit_Framework_TestCase {
   protected $xa, $fs;
@@ -30,7 +31,7 @@ class XMLAnalyzerTest extends PHPUnit_Framework_TestCase {
 
   public function testConstStrings() {
     $this->assertEquals('multiple data from xml file', $this->xa->describe());
-    $this->assertEquals('XMLAnalyzer', $this->xa->__toString());
+    $this->assertEquals('Analyzers\XMLAnalyzer', $this->xa->__toString());
     $this->assertEquals(false, XMLAnalyzer::$dataName);
   }
 }

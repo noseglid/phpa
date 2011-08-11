@@ -1,7 +1,8 @@
 <?php
 
-require_once 'PHPUnit/Framework.php';
-require_once 'analyzers/CyclomaticComplexityAnalyzer.php';
+require_once dirname(__FILE__) . '/config_tests.php';
+
+use Analyzers\CyclomaticComplexityAnalyzer;
 
 class CCATest extends PHPUnit_Framework_TestCase {
   private $cca;
@@ -57,7 +58,7 @@ class CCATest extends PHPUnit_Framework_TestCase {
 
   public function testConstStrings() {
     $this->assertEquals('complexity of units', $this->cca->describe());
-    $this->assertEquals('CyclomaticComplexityAnalyzer', $this->cca->__toString());
+    $this->assertEquals('Analyzers\CyclomaticComplexityAnalyzer', $this->cca->__toString());
     $this->assertEquals('complexity', CyclomaticComplexityAnalyzer::$dataName);
   }
 }
