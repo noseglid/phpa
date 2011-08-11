@@ -1,13 +1,13 @@
 <?php
 
-require_once 'PHPUnit/Extensions/OutputTestCase.php';
-require_once 'reporter.php';
+require_once dirname(__FILE__) . '/config_tests.php';
+require 'tests/data/common.php';
 
-include 'tests/data/common.php';
+use Reporters\StdoutReporter;
 
 class ReporterTest extends PHPUnit_Extensions_OutputTestCase {
 
-  public function stdoutReporter_dp() {
+  public function StdoutReporter_dp() {
     global $data;
 
     return array(
@@ -17,10 +17,10 @@ class ReporterTest extends PHPUnit_Extensions_OutputTestCase {
   }
 
   /**
-   * @dataProvider stdoutReporter_dp
+   * @dataProvider StdoutReporter_dp
    */
-  public function teststdoutReporter($data, $expected) {
-    $stdoutr = new stdoutReporter($data, 'NULL');
+  public function testStdoutReporter($data, $expected) {
+    $stdoutr = new StdoutReporter($data, 'NULL');
 
     $this->expectOutputString($expected);
     $stdoutr->report();

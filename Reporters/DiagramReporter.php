@@ -88,7 +88,5 @@ class DiagramReporter extends Reporter {
     }
     $f = create_function('', "return $string;");
     return $f();
-}
-
-
+  }
 }

@@ -23,7 +23,7 @@ class CyclomaticComplexityAnalyzer extends Analyzer {
   }
 
   public function complexity($unit) {
-    if ($unit['err']) {
+    if (isset($unit['err'])) {
       return -1;
     }
 

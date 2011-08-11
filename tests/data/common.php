@@ -56,7 +56,7 @@ $data =
             'complexity' => '2',
             'dependency' => '0/0',
             'sloc'       => '20',
-            'src_strip'  => "function d() { fopen($f);\na();\nb();\n}"
+            'src_strip'  => 'function d() { fopen($f);\na();\nb();\n}'
           ),
           array(
             'fnc'        => 'e',

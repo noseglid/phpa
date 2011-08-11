@@ -25,7 +25,11 @@ class FrequencyAnalyzer extends analyzer {
 
       $o = $this->analyzeXdebugTrace($data['xdbt'][$i]);
       foreach ($data['units'] as &$unit) {
-        $unit[FrequencyAnalyzer::$dataName] += $o["{$unit['fnc']}"];
+        if (!isset($unit[self::$dataName])) {
+          $unit[self::$dataName] = 0;
+        }
+
+        $unit[self::$dataName] += $o["{$unit['fnc']}"];
       }
     }
     unset($data['xdbt']);
@@ -56,6 +60,9 @@ class FrequencyAnalyzer extends analyzer {
       }
 
       $fnc  = trim($trace[5]);
+      if (!isset($out["$fnc"])) {
+        $out["$fnc"] = 0;
+      }
       $out["$fnc"]++;
     }
     return $out;
