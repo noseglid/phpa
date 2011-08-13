@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Functions/source_parser.php';
+use Functions\SourceParser;
 
 class SourceParserTest extends PHPUnit_Framework_TestCase {
 
@@ -38,7 +38,7 @@ class SourceParserTest extends PHPUnit_Framework_TestCase {
    * @dataProvider strip_1sloc_dp
    */
   function testStrip_1sloc($line, $expected_strip) {
-    $strip = strip_1sloc($line);
+    $strip = SourceParser::stripSingle($line);
     $this->assertEquals($expected_strip, $strip);
   }
 
@@ -46,7 +46,7 @@ class SourceParserTest extends PHPUnit_Framework_TestCase {
    * @dataProvider strip_nsloc_dp
    */
   function testStrip_nsloc($line, $expected_strip) {
-    $strip = strip_nsloc($line);
+    $strip = SourceParser::stripMultiple($line);
     $this->assertEquals($expected_strip, $strip);
   }
 

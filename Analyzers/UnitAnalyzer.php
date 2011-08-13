@@ -2,8 +2,7 @@
 
 namespace Analyzers;
 
-require_once 'Functions/source_parser.php';
-
+use Functions\SourceParser;
 use \Exception;
 
 /**
@@ -47,7 +46,7 @@ class UnitAnalyzer extends Analyzer {
     $in_php     = false;
     while(($line = fgets($fh)) !== false) {
       $row++;
-      $line = strip_1sloc($line);
+      $line = SourceParser::stripSingle($line);
 
       if (1 == preg_match('/\<\?(php)?/', $line)) {
         $in_php = true;
