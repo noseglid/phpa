@@ -3,6 +3,7 @@
 namespace Analyzers;
 
 use \Exception;
+use Functions\SourceParser;
 
 class SourceAnalyzer extends Analyzer {
   public static $dataName = 'src';
@@ -42,7 +43,7 @@ class SourceAnalyzer extends Analyzer {
     do {
       $sloc         += 1;
       $line          = fgets($fh);
-      $line_strip    = strip_1sloc($line);
+      $line_strip    = SourceParser::stripSingle($line);
       $source       .= $line;
       $source_strip .= $line_strip;
       if (1 === preg_match('/\/\*/', $line_strip)) {
@@ -72,7 +73,7 @@ class SourceAnalyzer extends Analyzer {
       $sloc         = -1;
     }
 
-    $source_strip = strip_nsloc($source_strip);
+    $source_strip = SourceParser::stripMultiple($source_strip);
   }
 
   public function describe() {
