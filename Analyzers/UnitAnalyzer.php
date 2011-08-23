@@ -1,7 +1,9 @@
 <?php
 
-require_once 'analyzer.php';
-require_once 'functions/source_parser.php';
+namespace Analyzers;
+
+use Functions\SourceParser;
+use \Exception;
 
 /**
  * A analyzer which finds units in a source code tree.
@@ -21,7 +23,7 @@ class UnitAnalyzer extends Analyzer {
   public function analyze(&$data) {
     $this->initProgress(count($data['files']));
 
-    foreach ($data['files'] as $k => $file) {
+    foreach ((array)$data['files'] as $k => $file) {
       if(0 === preg_match('/.Test\.php$/', $file)) {
         $this->progress();
         $this->locateUnits($file);
@@ -29,7 +31,7 @@ class UnitAnalyzer extends Analyzer {
         unset($data['files'][$k]);
       }
     }
-    
+
     $data[UnitAnalyzer::$dataName] = $this->units;
   }
 
@@ -44,7 +46,7 @@ class UnitAnalyzer extends Analyzer {
     $in_php     = false;
     while(($line = fgets($fh)) !== false) {
       $row++;
-      $line = strip_1sloc($line);
+      $line = SourceParser::stripSingle($line);
 
       if (1 == preg_match('/\<\?(php)?/', $line)) {
         $in_php = true;
@@ -98,10 +100,4 @@ class UnitAnalyzer extends Analyzer {
   public function describe() {
     return 'units in the system';
   }
-
-  public static function __toString() {
-    return 'UnitAnalyzer';
-  }
-
 }
-

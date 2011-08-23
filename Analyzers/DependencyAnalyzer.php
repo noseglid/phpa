@@ -1,6 +1,9 @@
 <?php
-require_once 'analyzer.php';
-require_once 'config.php';
+
+namespace Analyzers;
+
+use \Exception;
+use Config\Config;
 
 class DependencyAnalyzer extends Analyzer {
   public static $dataName = "dependency";
@@ -9,7 +12,7 @@ class DependencyAnalyzer extends Analyzer {
 
   public function analyze(&$data) {
     if (empty($data[UnitAnalyzer::$dataName])) {
-      throw new Exception(UnitAnalyzer::__toString() . " must be run prior to $this\n");
+      throw new Exception(UnitAnalyzer::text() . " must be run prior to $this\n");
     }
     $this->initProgress(count($data['units']));
     $this->setData($data);
@@ -110,9 +113,4 @@ class DependencyAnalyzer extends Analyzer {
   public function describe() {
     return "unit dependencies";
   }
-
-  public function __toString() {
-    return "DependencyAnalyzer";
-  }
 }
-

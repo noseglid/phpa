@@ -1,9 +1,9 @@
 <?php
 
-require_once 'PHPUnit/Framework.php';
-require_once 'analyzers/DependencyAnalyzer.php';
+require_once dirname(__FILE__) . '/config_tests.php';
+require_once 'tests/data/common.php';
 
-include 'tests/data/common.php';
+use Analyzers\DependencyAnalyzer;
 
 class DATest extends PHPUnit_Framework_TestCase {
 
@@ -19,7 +19,7 @@ class DATest extends PHPUnit_Framework_TestCase {
       array($data[1], $data[1]['units'][0], array('0 / 0', 0)),
       array($data[1], $data[1]['units'][1], array('1 / 0', 1)),
       array($data[1], $data[1]['units'][2], array('2 / 0', 2)),
-      array($data[1], $data[1]['units'][3], array('2 / 1', 3)),
+      array($data[1], $data[1]['units'][3], array('0 / 1', 1)),
       array($data[1], $data[1]['units'][4], array('1 / 1', 2)),
       array($data[1], $data[1]['units'][5], array('3 / 2', 5))
     );
@@ -42,7 +42,7 @@ class DATest extends PHPUnit_Framework_TestCase {
           array('0 / 0', 0),
           array('1 / 0', 1),
           array('2 / 0', 2),
-          array('2 / 1', 3),
+          array('0 / 1', 1),
           array('1 / 1', 2),
           array('3 / 2', 5)
         )
@@ -68,7 +68,7 @@ class DATest extends PHPUnit_Framework_TestCase {
 
   function testConstStrings() {
     $this->assertEquals('unit dependencies', $this->da->describe());
-    $this->assertEquals('DependencyAnalyzer', $this->da->__toString());
+    $this->assertEquals('Analyzers\DependencyAnalyzer', $this->da->__toString());
     $this->assertEquals('dependency', DependencyAnalyzer::$dataName);
   }
 }

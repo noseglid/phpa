@@ -1,14 +1,16 @@
 <?php
 
-require_once 'analyzer.php';
-require_once 'functions/common.php';
+namespace Analyzers;
+
+use \Exception;
+use Functions\SourceParser;
 
 class SourceAnalyzer extends Analyzer {
   public static $dataName = 'src';
 
   public function analyze(&$data) {
     if (empty($data['units'])) {
-      throw new Exception(UnitAnalyzer::__toString() . " must be run prior to $this\n");
+      throw new Exception(UnitAnalyzer::text() . " must be run prior to $this\n");
     }
     $this->initProgress(count($data['units']));
     foreach ($data['units'] as &$unit) {
@@ -41,7 +43,7 @@ class SourceAnalyzer extends Analyzer {
     do {
       $sloc         += 1;
       $line          = fgets($fh);
-      $line_strip    = strip_1sloc($line);
+      $line_strip    = SourceParser::stripSingle($line);
       $source       .= $line;
       $source_strip .= $line_strip;
       if (1 === preg_match('/\/\*/', $line_strip)) {
@@ -71,15 +73,10 @@ class SourceAnalyzer extends Analyzer {
       $sloc         = -1;
     }
 
-    $source_strip = strip_nsloc($source_strip);
+    $source_strip = SourceParser::stripMultiple($source_strip);
   }
 
   public function describe() {
     return "source code";
   }
-
-  public function __toString() {
-    return "SourceAnalyzer";
-  }
 }
-

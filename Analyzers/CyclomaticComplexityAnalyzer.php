@@ -1,14 +1,15 @@
 <?php
 
-require_once 'analyzer.php';
-require_once 'UnitAnalyzer.php';
+namespace Analyzers;
+
+use \Exception;
 
 class CyclomaticComplexityAnalyzer extends Analyzer {
   public static $dataName = 'complexity';
 
   public function analyze(&$data) {
     if (empty($data['units'])) {
-      throw new Exception(UnitAnalyzer::__toString() . " must be run prior to $this\n");
+      throw new Exception(UnitAnalyzer::text() . " must be run prior to $this\n");
     }
 
     $this->initProgress(count($data['units']));
@@ -22,7 +23,7 @@ class CyclomaticComplexityAnalyzer extends Analyzer {
   }
 
   public function complexity($unit) {
-    if ($unit['err']) {
+    if (isset($unit['err'])) {
       return -1;
     }
 
@@ -62,9 +63,5 @@ class CyclomaticComplexityAnalyzer extends Analyzer {
 
   public function describe() {
     return "complexity of units";
-  }
-
-  public static function __toString() {
-    return "CyclomaticComplexityAnalyzer";
   }
 }

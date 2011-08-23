@@ -1,8 +1,9 @@
 <?php
-require_once 'PHPUnit/Framework.php';
-require_once 'analyzers/WarningAnalyzer.php';
 
-include 'tests/data/common.php';
+require_once dirname(__FILE__) . '/config_tests.php';
+require'tests/data/common.php';
+
+use Analyzers\WarningAnalyzer;
 
 class WATest extends PHPUnit_Framework_TestCase {
 
@@ -23,7 +24,7 @@ class WATest extends PHPUnit_Framework_TestCase {
 
   function testConstStrings() {
     $this->assertEquals('unit warnings', $this->wa->describe());
-    $this->assertEquals('WarningAnalyzer', $this->wa->__toString());
+    $this->assertEquals('Analyzers\WarningAnalyzer', $this->wa->__toString());
     $this->assertEquals('wrn', WarningAnalyzer::$dataName);
   }
 

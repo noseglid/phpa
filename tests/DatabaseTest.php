@@ -1,7 +1,8 @@
 <?php
 
-require_once 'PHPUnit/Extensions/Database/TestCase.php';
-require_once '../database.php';
+require_once dirname(__FILE__) . '/config_tests.php';
+
+use Functions\Databases\Database;
 
 class DatabaseTest extends PHPUnit_Extensions_Database_TestCase
 {
@@ -83,8 +84,8 @@ class DatabaseTest extends PHPUnit_Extensions_Database_TestCase
   public function insertData_dp()
   {
     $data1 = array(
-      'count' => array(
-        'files' => '1',
+      'files' => array(
+        'file',
       ),
       'units' => array(
         array(
@@ -95,8 +96,10 @@ class DatabaseTest extends PHPUnit_Extensions_Database_TestCase
     );
 
     $data2 = array(
-      'count' => array(
-        'files' => '3',
+      'files' => array(
+        'file1',
+        'file2',
+        'file3'
       ),
       'units' => array(
         array(

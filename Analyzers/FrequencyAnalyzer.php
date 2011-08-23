@@ -1,6 +1,8 @@
 <?php
 
-require_once 'analyzer.php';
+namespace Analyzers;
+
+use \Exception;
 
 class FrequencyAnalyzer extends analyzer {
   public static $dataName = 'frequency';
@@ -11,7 +13,7 @@ class FrequencyAnalyzer extends analyzer {
     }
 
     if (empty($data['units'])) {
-      throw new Exception(UnitAnalyzer::__toString() . " must be run prior to $this\n");
+      throw new Exception(UnitAnalyzer::text() . " must be run prior to $this\n");
     }
 
     $count = count($data['xdbt']);
@@ -23,7 +25,11 @@ class FrequencyAnalyzer extends analyzer {
 
       $o = $this->analyzeXdebugTrace($data['xdbt'][$i]);
       foreach ($data['units'] as &$unit) {
-        $unit[FrequencyAnalyzer::$dataName] += $o["{$unit['fnc']}"];
+        if (!isset($unit[self::$dataName])) {
+          $unit[self::$dataName] = 0;
+        }
+
+        $unit[self::$dataName] += $o["{$unit['fnc']}"];
       }
     }
     unset($data['xdbt']);
@@ -54,6 +60,9 @@ class FrequencyAnalyzer extends analyzer {
       }
 
       $fnc  = trim($trace[5]);
+      if (!isset($out["$fnc"])) {
+        $out["$fnc"] = 0;
+      }
       $out["$fnc"]++;
     }
     return $out;
@@ -62,9 +71,4 @@ class FrequencyAnalyzer extends analyzer {
   public function describe() {
     return 'unit frequency';
   }
-
-  public function __toString() {
-    return 'FrequencyAnalyzer';
-  }
 }
-

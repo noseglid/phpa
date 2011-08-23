@@ -1,5 +1,6 @@
 <?php
-require_once 'functions/common.php';
+
+namespace Config;
 
 final class Config {
   /**
@@ -19,4 +20,3 @@ final class Config {
 
   public static $db = 'db.sqlite';
 }
-

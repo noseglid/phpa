@@ -1,8 +1,12 @@
 #!/usr/bin/php
 <?php
 
-require_once 'config.php';
-require_once 'functions/xml_array.php';
+require_once dirname(__FILE__) . '/Config/init.php';
+
+use Config\Config;
+
+use Functions\XML\XML2Array;
+use Functions\XML\Array2XML;
 
 DEFINE(DEBUG,true);
 
@@ -55,13 +59,13 @@ $files = array_unique($files);
 foreach ($files as $file) {
   echo "Merging file: $file\n";
   if (empty($data)) {
-    $data = xml2array(simplexml_load_file($file));
+    $data = XML2Array::get(simplexml_load_file($file));
   } else {
-    $data = merge($data, xml2array(simplexml_load_file($file)));
+    $data = merge($data, XML2Array::get(simplexml_load_file($file)));
   }
 }
 
-$a2x = new array2xml($data);
+$a2x = new Array2XML($data);
 
 if (false === ($fh = @fopen($out, 'w'))) {
   echo "Error: Unable to open '$out' for writing. Exiting.\n";

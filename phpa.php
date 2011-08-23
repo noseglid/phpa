@@ -1,12 +1,28 @@
 #!/usr/bin/php
 <?php
 
-DEFINE(DEBUG, false);
+define('DEBUG', 0);
 
-require_once "config.php";
-require_once "analyzer.php";
-require_once "reporter.php";
-require_once "functions/common.php";
+require_once dirname(__FILE__) . '/Config/init.php';
+
+use Config\Config;
+
+use Functions\Filesystem;
+
+use Analyzers\CyclomaticComplexityAnalyzer;
+use Analyzers\DependencyAnalyzer;
+use Analyzers\SourceAnalyzer;
+use Analyzers\UnitAnalyzer;
+use Analyzers\WarningAnalyzer;
+use Analyzers\FrequencyAnalyzer;
+use Analyzers\XMLAnalyzer;
+
+use Reporters\DatabaseReporter;
+use Reporters\DiagramReporter;
+use Reporters\HTMLReporter;
+use Reporters\StdoutReporter;
+use Reporters\TextReporter;
+use Reporters\XMLReporter;
 
 echo 'PHP Analyzer by Alexander Olsson - Version ' . Config::$version . "\n\n";
 
@@ -14,20 +30,28 @@ echo 'PHP Analyzer by Alexander Olsson - Version ' . Config::$version . "\n\n";
  * Prints usage and terminates the application
  */
 function usage() {
-  echo "Usage:\n";
-  echo "\t phpa [options] [[-i FILE [-i FILE2 ..]]|-xml XMLFILE]\n\n";
-  echo "Options:\n";
-  echo "\t -i --input \tInput file/folder. The system which should be analyzed. May not coexist with '-xml'.\n";
-  echo "\t -xml       \tInput xml file. Use an XML file as input. May not coexist with '-i'.\n";
-  echo "\t -t --type  \tReport type. allowed values 'stdout', 'text', 'diagram' (see '-dt'), 'xml', 'html' and 'db'.\n";
-  echo "\t -dt        \tDiagram type. Datas on axises, colon separated, x:y. Example: complexity:frequency\n";
-  echo "\t -ds        \tDiagram scales. The axis scales. Any combination of 'int', 'lin', 'log', 'text' and 'dat'. E.g. 'loglog'.\n";
-  echo "\t -xdbt      \tXdebug Trace folder. A folder containing files from xdebug trace.\n";
-  echo "\t -o --out   \tOutput file. The file where reports should be written.\n";
-  echo "\n";
-  echo "Example:\t phpa -t xml -o analysis.xml -i function_library/\n";
-  echo "\n";
-  if (DEBUG) var_dump(debug_backtrace());
+  printf("Usage:%s", PHP_EOL);
+  printf("  phpa [options] [-i FILE [-i FILE2 ..]|-xml XMLFILE]%s%s", PHP_EOL, PHP_EOL);
+  printf("Options:%s", PHP_EOL);
+  printf(PHP_EOL);
+  printf("  -i --input   Input file/folder. The system which should be analyzed.%s", PHP_EOL);
+  printf("               May not coexist with '-xml'.%s", PHP_EOL);
+  printf("  -xml         Input xml file. Use an XML file as input.%s", PHP_EOL);
+  printf("               May not coexist with '-i'.%s", PHP_EOL);
+  printf("  -t --type    Report type. allowed values 'stdout', 'text',%s", PHP_EOL);
+  printf("               'diagram','xml', 'html' and 'db'.%s", PHP_EOL);
+  printf("  -dt          Diagram type. Datas on axises, colon separated, x:y.%s", PHP_EOL);
+  printf("               Only valid when --type is diagram.%s", PHP_EOL);
+  printf("               Default: complexity:frequency%s", PHP_EOL);
+  printf("  -ds          Diagram scales. The axis scales, colo separated, x:y.%s", PHP_EOL);
+  printf("               Only valid when --type is diagram.%s", PHP_EOL);
+  printf("               Any combination of 'int', 'lin', 'log', 'text' and 'dat'.%s", PHP_EOL);
+  printf("               Default: 'log:log'.%s", PHP_EOL);
+  printf("  -xdbt        Xdebug Trace folder. A folder containing files from xdebug trace.%s", PHP_EOL);
+  printf("  -o --out     Output file. The file where reports should be written.%s", PHP_EOL);
+  printf(PHP_EOL);
+  printf("Example: phpa -t xml -o analysis.xml -i function_library/%s", PHP_EOL);
+  printf(PHP_EOL);
   exit(0);
 }
 
@@ -46,7 +70,7 @@ function flagval(&$i, $argv) {
 }
 
 function elog($message, $type = 'Warning') {
-  echo "$type: $message\n";
+  echo "\n-!- $type: $message\n";
 }
 
 if ($argc < 2) {
@@ -74,7 +98,7 @@ for ($i = 1; $i < $argc; $i++) {
 
     case '-xdbt':
       $analyzers[FrequencyAnalyzer::$dataName] = new FrequencyAnalyzer();
-      parse_fs($data['xdbt'], flagval($i, $argv), 'xt');
+      Filesystem::findByExtension($data['xdbt'], flagval($i, $argv), 'xt');
       break;
 
     case '-xdbtl':
@@ -101,7 +125,7 @@ for ($i = 1; $i < $argc; $i++) {
       $analyzers[DependencyAnalyzer::$dataName]           = new DependencyAnalyzer();
 
       $input_path = flagval($i, $argv);
-      parse_fs($data['files'], $input_path, 'php');
+      Filesystem::filesByExtension($data['files'], $input_path, 'php');
       break;
 
     default:
@@ -117,12 +141,8 @@ for ($i = 1; $i < $argc; $i++) {
  */
 $analyzers[WarningAnalyzer::$dataName] = new WarningAnalyzer();
 
-
-if (
-   (!empty($report_t) && empty($report_f)) ||
-   (empty($report_t) && !empty($report_f))
-   )
-{
+if ((!empty($report_t) &&  empty($report_f)) ||
+     (empty($report_t) && !empty($report_f))) {
    usage();
 }
 
@@ -151,21 +171,14 @@ $dur = microtime(true) - $start;
 
 echo "Analyzing using " . count($analyzers) . " analyzers took $dur s.\n";
 
-if (DEBUG) {
-  $f = pathinfo($report_f);
-  $fh = fopen("dbg_time_{$f['filename']}", 'w');
-  fwrite($fh, "Analyzing using " . count($analyzers) . " analyzers took $dur s.\n");
-  fclose($fh);
-}
-
-trim_file_paths($data, $input_path);
+Filesystem::trimFilePaths($data, $input_path);
 switch ($report_t) {
   case 'stdout':
-    $reporter = new stdoutReporter($data, $report_f);
+    $reporter = new StdoutReporter($data, $report_f);
     break;
 
   case 'text':
-    $reporter = new textReporter($data, $report_f);
+    $reporter = new TextReporter($data, $report_f);
     break;
 
   case 'html':
@@ -173,6 +186,14 @@ switch ($report_t) {
     break;
 
   case 'diagram':
+    if (!isset($dt)) {
+      printf('Data type (-dt) not set. Defaulting to \'sloc:complexity\'%s', PHP_EOL);
+      $dt = 'sloc:complexity';
+    }
+    if (!isset($ds)) {
+      printf('Data scales (-ds) not set. Defaulting to \'log:log\'%s', PHP_EOL);
+      $ds = 'log:log';
+    }
     $reporter = new DiagramReporter($data, $report_f, $dt, $ds);
     break;
 
@@ -180,12 +201,12 @@ switch ($report_t) {
     $reporter = new DatabaseReporter($data, $report_f);
     break;
 
-  default:
-    elog("Report type not supported: $report_t. Defaulting to xml.");
-
   case 'xml':
     $reporter = new XMLReporter($data, $report_f);
     break;
+
+  default:
+    usage();
 }
 
 echo "Writing {$reporter->describe()} report.\n";
@@ -193,13 +214,10 @@ echo "Writing {$reporter->describe()} report.\n";
 try {
   $reporter->report();
 } catch (Exception $e) {
-  elog($e->getMessage(),'Error');
+  elog($e->getMessage(), 'Error');
   exit(1);
 }
 
 if ($report_f !== '/dev/null') {
-  echo "Report written to $report_f";
+  printf('Report written to \'%s\'.%s', $report_f, PHP_EOL);
 }
-
-?>
-
