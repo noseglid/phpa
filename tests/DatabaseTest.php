@@ -11,6 +11,8 @@ class DatabaseTest extends PHPUnit_Extensions_Database_TestCase
 
   public function setUp()
   {
+    TestRequire::PDODriver($this, 'sqlite');
+
     Database::init($this->filename);
     Database::createTables();
     parent::setUp();

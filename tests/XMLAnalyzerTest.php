@@ -1,7 +1,6 @@
 <?php
 
 require_once dirname(__FILE__) . '/config_tests.php';
-require_once 'vfsStream/vfsStream.php';
 include 'tests/data/xml_analyzer.php';
 
 use Analyzers\XMLAnalyzer;
@@ -11,6 +10,8 @@ class XMLAnalyzerTest extends PHPUnit_Framework_TestCase {
 
   protected function setUp() {
     global $xml_file_data;
+
+    TestRequire::vfs($this);
 
     vfsStreamWrapper::register();
     vfsStreamWrapper::setRoot(new vfsStreamDirectory('r'));

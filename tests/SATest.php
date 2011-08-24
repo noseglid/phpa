@@ -1,7 +1,6 @@
 <?php
 
 require_once dirname(__FILE__) . '/config_tests.php';
-require_once 'vfsStream/vfsStream.php';
 
 require 'tests/data/common.php';
 
@@ -11,6 +10,8 @@ class SATest extends PHPUnit_Framework_TestCase {
   private $sa;
 
   public function setUp() {
+    TestRequire::vfs($this);
+
     $this->sa = new SourceAnalyzer();
     vfsStreamWrapper::register();
     vfsStreamWrapper::setRoot(new vfsStreamDirectory('r'));

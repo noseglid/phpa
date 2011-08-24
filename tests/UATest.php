@@ -1,7 +1,6 @@
 <?php
 
 require_once dirname(__FILE__) . '/config_tests.php';
-require_once 'vfsStream/vfsStream.php';
 require 'tests/data/common.php';
 
 use Analyzers\UnitAnalyzer;
@@ -11,6 +10,8 @@ class UATest extends PHPUnit_Framework_TestCase {
   private $fsroot;
 
   function setUp() {
+    TestRequire::vfs($this);
+
     vfsStreamWrapper::register();
     vfsStreamWrapper::setRoot(new vfsStreamDirectory('r'));
     $this->fsroot = vfsStreamWrapper::getRoot();
