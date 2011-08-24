@@ -8,6 +8,11 @@ use Functions\XML\Array2HTML;
 
 class Array2HTMLTest extends PHPUnit_Framework_Testcase
 {
+  public function setUp()
+  {
+    TestRequire::extension($this, 'xsl');
+  }
+
   public function array2html_dp() {
     global $data, $array2html_result;
     return array(

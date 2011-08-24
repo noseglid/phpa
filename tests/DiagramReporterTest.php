@@ -9,6 +9,8 @@ class DiagramReporterTest extends PHPUnit_Framework_TestCase {
   private $dr;
 
   public function setUp() {
+    TestRequire::jpgraph($this);
+
     $this->dr = new DiagramReporter('a', 'b', 'c:f', 'd');
   }
 

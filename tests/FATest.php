@@ -1,7 +1,6 @@
 <?php
 
 require_once dirname(__FILE__) . '/config_tests.php';
-require_once 'vfsStream/vfsStream.php';
 require 'tests/data/frequency_analyzer.php';
 
 use Analyzers\FrequencyAnalyzer;
@@ -9,7 +8,10 @@ use Analyzers\FrequencyAnalyzer;
 class FrequencyAnalyzerTest extends PHPUnit_Framework_TestCase {
   protected $fa, $fs;
 
-  protected function setUp() {
+  protected function setUp()
+  {
+    TestRequire::vfs($this);
+
     $this->fa = new FrequencyAnalyzer();
     vfsStreamWrapper::register();
     vfsStreamWrapper::setRoot(new vfsStreamDirectory('r'));
